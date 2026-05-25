@@ -1,0 +1,58 @@
+; Hello, Jynx!
+(print "Hello, World!")
+
+; Arithmetic
+(print (+ 1 2 3 4 5))
+(print (* 2 3 4))
+(print (/ 100 5))
+
+; Variables
+(define x 42)
+(define y 10)
+(print (+ x y))
+
+; Conditionals
+(if (> x 10)
+    (print "x is big")
+    (print "x is small"))
+
+; Functions
+(define (square n)
+    (* n n))
+
+(print (square 5))
+(print (square (+ 2 3)))
+
+; Recursion
+(define (factorial n)
+    (if (<= n 1)
+        1
+        (* n (factorial (- n 1)))))
+
+(print (factorial 5))
+(print (factorial 10))
+
+; Lists
+(define my-list (list 1 2 3 4 5))
+(print (car my-list))
+(print (cdr my-list))
+(print (length my-list))
+
+; cond
+(define (classify x)
+    (cond
+        ((< x 0) "negative")
+        ((= x 0) "zero")
+        (else "positive")))
+
+(print (classify -5))
+(print (classify 0))
+(print (classify 3))
+
+; Higher-order
+(define (map fn lst)
+    (if (nil? lst)
+        nil
+        (cons (fn (car lst)) (map fn (cdr lst)))))
+
+(print (map square (list 1 2 3 4 5)))

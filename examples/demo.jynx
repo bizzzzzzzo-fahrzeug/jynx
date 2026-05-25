@@ -1,0 +1,130 @@
+; Jynx Demo — showcase of language features
+
+(print "=== Jynx Language Demo ===")
+(print)
+
+; --- Arithmetic ---
+(print "--- Arithmetic ---")
+(print (+ 1 2 3 4 5))
+(print (* 2 3 4 5))
+(print (/ 100 4))
+(print (% 17 5))
+(print (- 100 10 20 30))
+
+; --- Variables ---
+(print)
+(print "--- Variables ---")
+(define name "Jynx")
+(define version 0.1)
+(define features (list "s-expressions" "closures" "recursion" "macros"))
+(print name)
+(print version)
+
+; --- Conditionals ---
+(print)
+(print "--- Conditionals ---")
+(define x 42)
+(if (> x 10)
+    (print "x is greater than 10")
+    (print "x is not greater than 10"))
+
+; --- cond ---
+(define (temperature desc)
+    (cond
+        ((= desc "hot")  " Wear shorts")
+        ((= desc "cold") " Wear a coat")
+        (else            " Wear anything")))
+
+(print (temperature "hot"))
+(print (temperature "cold"))
+(print (temperature "mild"))
+
+; --- Functions ---
+(print)
+(print "--- Functions ---")
+
+(define (square x) (* x x))
+(define (cube x) (* x x x))
+
+(print (square 5))
+(print (cube 3))
+
+; --- Recursion ---
+(print)
+(print "--- Recursion ---")
+
+(define (factorial n)
+    (if (<= n 1)
+        1
+        (* n (factorial (- n 1)))))
+
+(define (fib n)
+    (if (<= n 1)
+        n
+        (+ (fib (- n 1)) (fib (- n 2)))))
+
+(print (factorial 6))
+(print (fib 10))
+
+; --- First-class functions & closures ---
+(print)
+(print "--- Closures ---")
+
+(define (make-counter)
+    (define count 0)
+    (lambda ()
+        (set! count (+ count 1))
+        count))
+
+(define counter (make-counter))
+(print (counter))
+(print (counter))
+(print (counter))
+
+; --- Higher-order functions ---
+(print)
+(print "--- Higher-order ---")
+
+(define (map fn lst)
+    (if (nil? lst)
+        nil
+        (cons (fn (car lst)) (map fn (cdr lst)))))
+
+(define (filter pred lst)
+    (if (nil? lst)
+        nil
+        (if (pred (car lst))
+            (cons (car lst) (filter pred (cdr lst)))
+            (filter pred (cdr lst)))))
+
+(define (range n)
+    (if (<= n 0)
+        nil
+        (cons n (range (- n 1)))))
+
+(print (map square (range 5)))
+(print (filter (lambda (x) (> x 3)) (range 10)))
+
+; --- Lists ---
+(print)
+(print "--- Lists ---")
+
+(define lst (list 10 20 30 40 50))
+(print (car lst))
+(print (cdr lst))
+(print (length lst))
+(print (cons 0 lst))
+
+; --- Type system ---
+(print)
+(print "--- Types ---")
+
+(print (type-of 42))
+(print (type-of "hello"))
+(print (type-of true))
+(print (type-of nil))
+(print (type-of (list 1 2)))
+(print (type-of +))
+
+(print)
+(print "=== Demo Complete ===")

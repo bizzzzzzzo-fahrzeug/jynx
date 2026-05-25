@@ -103,6 +103,7 @@ BUILTINS = {
     "exit": BuiltinProcedure("exit", lambda a: sys.exit(a[0] if a else 0)),
     "error": BuiltinProcedure("error", lambda a: _raise_error(a[0])),
     "typeof": BuiltinProcedure("typeof", _type_of),
+    "clock": BuiltinProcedure("clock", lambda a: __import__("time").time()),
 }
 
 

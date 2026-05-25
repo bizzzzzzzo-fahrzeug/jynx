@@ -1,0 +1,39 @@
+; Type introspection
+
+(define x 42)
+(define y "hello")
+(define z true)
+(define w nil)
+(define l (list 1 2))
+
+(print "type-of:")
+(print (type-of x))       ; number
+(print (type-of y))       ; string
+(print (type-of z))       ; boolean
+(print (type-of w))       ; nil
+(print (type-of l))       ; list
+(print (type-of +))       ; procedure
+
+; Predicates
+(print)
+(print "predicates:")
+(print (number? 42))       ; true
+(print (number? "hi"))     ; false
+(print (string? "hi"))     ; true
+(print (boolean? true))    ; true
+(print (nil? nil))         ; true
+(print (list? (list 1)))   ; true
+(print (procedure? +))     ; true
+
+; Combine predicates for dispatch
+(define (describe val)
+    (cond
+        ((number? val) (string-append (number->string val) " is a number"))
+        ((string? val) (string-append "\"" val "\" is a string"))
+        ((boolean? val) (string-append (if val "true" "false") " is a boolean"))
+        ((nil? val) "nil")
+        ((list? val) "a list")
+        (else "unknown")))
+
+(print (describe 42))
+(print (describe "hi"))

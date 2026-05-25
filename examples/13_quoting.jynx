@@ -1,0 +1,28 @@
+; Quote — prevents evaluation
+
+; Quote a symbol (returns the symbol name, not its value)
+(define x 42)
+(print x)    ; 42 — evaluates x
+(print 'x)   ; x — quotes it, returns symbol
+
+; Quote a list (returns list, not function call)
+(print (+ 1 2))      ; 3 — evaluates
+(print '(+ 1 2))     ; (+ 1 2) — quoted, returns list
+
+; Quote shorthand with '
+(define data '(1 2 3 4 5))
+(print data)
+(print (car data))
+(print (cdr data))
+
+; Quoting for macro code templates
+(defmacro (twice expr)
+    (list 'begin expr expr))
+
+(define n 0)
+(twice (set! n (+ n 1)))
+(print n)  ; 2
+
+; Nested quotes
+(print ''x)     ; (quote x) — double quote
+(print '(1 (2 3) 4))

@@ -1,0 +1,25 @@
+; Anonymous functions
+
+; Inline lambda
+(print ((lambda (x) (* x x)) 5))
+
+; Named via lambda
+(define cube (lambda (x) (* x x x)))
+(print (cube 4))
+
+; Lambda with multiple args
+(define add3 (lambda (a b c) (+ a b c)))
+(print (add3 1 2 3))
+
+; Immediate invocation
+(print ((lambda (x y z) (+ (* x x) (* y y) (* z z))) 3 4 5))
+
+; Lambda returning lambda
+(define (make-multiplier factor)
+    (lambda (x) (* x factor)))
+
+(define double (make-multiplier 2))
+(define triple (make-multiplier 3))
+
+(print (double 10))
+(print (triple 10))

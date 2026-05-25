@@ -1,0 +1,33 @@
+; Counter closure
+(define (make-counter)
+    (define count 0)
+    (lambda ()
+        (set! count (+ count 1))
+        count))
+
+(define c1 (make-counter))
+(define c2 (make-counter))
+
+(print "c1: " (c1))  ; 1
+(print "c1: " (c1))  ; 2
+(print "c1: " (c1))  ; 3
+(print "c2: " (c2))  ; 1 (independent!)
+(print "c1: " (c1))  ; 4
+
+; Bank account closure
+(define (make-account balance)
+    (define (withdraw amount)
+        (set! balance (- balance amount))
+        balance)
+    (define (deposit amount)
+        (set! balance (+ balance amount))
+        balance)
+    (lambda (action amount)
+        (if (= action "withdraw") (withdraw amount)
+            (if (= action "deposit") (deposit amount)
+                "unknown action"))))
+
+(define acc (make-account 1000))
+(print (acc "deposit" 500))   ; 1500
+(print (acc "withdraw" 200))  ; 1300
+(print (acc "withdraw" 800))  ; 500

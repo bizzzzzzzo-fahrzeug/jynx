@@ -1,0 +1,49 @@
+; Even/odd detection and utilities
+
+(define (even? n) (= (% n 2) 0))
+(define (odd? n) (not (even? n)))
+
+(define nums (list 1 2 3 4 5 6 7 8 9 10))
+
+(print "even? tests:")
+(print (even? 2) (even? 3) (even? 0))
+
+(print "odd? tests:")
+(print (odd? 1) (odd? 2) (odd? 7))
+
+; Filter evens/odds
+(define (filter pred lst)
+    (if (nil? lst) nil
+        (if (pred (car lst))
+            (cons (car lst) (filter pred (cdr lst)))
+            (filter pred (cdr lst)))))
+
+(print "evens: " (filter even? nums))
+(print "odds: " (filter odd? nums))
+
+; Count by type
+(define (count pred lst)
+    (if (nil? lst) 0
+        (+ (if (pred (car lst)) 1 0) (count pred (cdr lst)))))
+
+(print "even count: " (count even? nums))
+(print "odd count: " (count odd? nums))
+
+; FizzBuzz
+(define (fizzbuzz n)
+    (cond
+        ((= (% n 15) 0) "FizzBuzz")
+        ((= (% n 3) 0) "Fizz")
+        ((= (% n 5) 0) "Buzz")
+        (else n)))
+
+(define (range start end)
+    (if (> start end) nil
+        (cons start (range (+ start 1) end))))
+
+(define (map fn lst)
+    (if (nil? lst) nil
+        (cons (fn (car lst)) (map fn (cdr lst)))))
+
+(print "FizzBuzz 1-15:")
+(print (map fizzbuzz (range 1 15)))

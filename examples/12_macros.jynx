@@ -1,0 +1,32 @@
+; Macros transform code before evaluation
+
+; unless — opposite of if
+(defmacro (unless condition body)
+    (list 'if (list 'not condition) body))
+
+(define x 10)
+(unless (= x 5) (print "x is not 5"))
+(unless (= x 10) (print "this won't print"))
+
+; when — if without else
+(defmacro (when condition body)
+    (list 'if condition body))
+
+(when (> x 5) (print "x is greater than 5"))
+
+; incf — increment variable in place
+(defmacro (incf var)
+    (list 'set! var (list '+ var 1)))
+
+(define count 0)
+(incf count)
+(incf count)
+(incf count)
+(print "count: " count)  ; 3
+
+; def — shorthand define
+(defmacro (def name value)
+    (list 'define name value))
+
+(def pi 3.14159)
+(print "pi: " pi)

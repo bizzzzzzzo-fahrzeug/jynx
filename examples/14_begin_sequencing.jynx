@@ -1,0 +1,30 @@
+; begin — run multiple expressions, return last
+
+; Sequencing in a define
+(define result
+    (begin
+        (print "step 1")
+        (print "step 2")
+        (+ 1 2)))
+(print "result: " result)  ; 3
+
+; Sequencing in a lambda body
+(define (log-and-return msg val)
+    (begin
+        (print "LOG: " msg)
+        val))
+
+(print (log-and-return "computing" (* 6 7)))  ; 42
+
+; Sequencing in if (no begin needed in some cases)
+(define (test x)
+    (if (> x 0)
+        (begin
+            (print "positive: " x)
+            x)
+        (begin
+            (print "non-positive: " x)
+            (- x))))
+
+(test 5)
+(test -3)

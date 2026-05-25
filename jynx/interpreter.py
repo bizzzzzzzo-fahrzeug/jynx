@@ -95,6 +95,8 @@ def evaluate(expr, env):
                 return _eval_or(expr.elements[1:], env)
             elif name == "defmacro":
                 return _eval_defmacro(expr.elements[1:], env)
+            elif name == "let":
+                return _eval_let(expr.elements[1:], env)
         return _eval_call(expr, env)
     else:
         return expr
@@ -204,6 +206,28 @@ def _eval_macro(args, env):
     return MacroProcedure(param_symbols, body, env)
 
 
+def _eval_let(args, env):
+    if len(args) < 2:
+        raise InterpreterError("let expects bindings and body")
+    bindings = args[0]
+    body = args[1:]
+    if not isinstance(bindings, List):
+        raise InterpreterError("let bindings must be a list")
+    local_env = Environment(outer=env)
+    for binding in bindings.elements:
+        if not isinstance(binding, List) or len(binding.elements) != 2:
+            raise InterpreterError("let binding must be (name value)")
+        name = binding.elements[0]
+        val = evaluate(binding.elements[1], env)
+        if not isinstance(name, Symbol):
+            raise InterpreterError("let binding name must be a symbol")
+        local_env.define(name.name, val)
+    result = None
+    for expr in body:
+        result = evaluate(expr, local_env)
+    return result
+
+
 def _eval_defmacro(args, env):
     if len(args) < 2:
         raise InterpreterError("defmacro expects at least 2 arguments")
@@ -253,14 +277,37 @@ def _eval_call(expr, env):
     if not expr.elements:
         return []
     proc_val = evaluate(expr.elements[0], env)
+    if isinstance(proc_val, MacroProcedure):
+        raw_args = [arg for arg in expr.elements[1:]]
+        expansion = proc_val.call(raw_args)
+        return _eval_macro_result(expansion, env)
     arg_vals = [evaluate(arg, env) for arg in expr.elements[1:]]
-    if isinstance(proc_val, (UserProcedure, MacroProcedure)):
+    if isinstance(proc_val, UserProcedure):
         return proc_val.call(arg_vals)
     elif isinstance(proc_val, BuiltinProcedure):
         return proc_val.call(arg_vals)
     elif callable(proc_val):
         return proc_val(*arg_vals)
     raise InterpreterError(f"{proc_val} is not a procedure")
+
+
+def _data_to_ast(data):
+    if isinstance(data, list):
+        return List([_data_to_ast(d) for d in data])
+    if isinstance(data, str):
+        return Symbol(data)
+    if isinstance(data, (int, float)):
+        return Number(data)
+    if isinstance(data, bool):
+        return Boolean(data)
+    if data is None:
+        return Nil()
+    return data
+
+
+def _eval_macro_result(result, env):
+    ast = _data_to_ast(result)
+    return evaluate(ast, env)
 
 
 class Interpreter:

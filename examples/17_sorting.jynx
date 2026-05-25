@@ -1,0 +1,37 @@
+; Sorting algorithms in Jynx
+
+; Insertion sort
+(define (insert x lst)
+    (if (nil? lst)
+        (list x)
+        (if (< x (car lst))
+            (cons x lst)
+            (cons (car lst) (insert x (cdr lst))))))
+
+(define (isort lst)
+    (if (nil? lst)
+        nil
+        (insert (car lst) (isort (cdr lst)))))
+
+(print "insertion sort: " (isort (list 5 2 8 1 9 3 7 4 6)))
+
+; Quicksort
+(define (append a b)
+    (if (nil? a) b
+        (cons (car a) (append (cdr a) b))))
+
+(define (filter pred lst)
+    (if (nil? lst) nil
+        (if (pred (car lst))
+            (cons (car lst) (filter pred (cdr lst)))
+            (filter pred (cdr lst)))))
+
+(define (qsort lst)
+    (if (nil? lst) nil
+        (let ((pivot (car lst)) (rest (cdr lst)))
+            (append
+                (qsort (filter (lambda (x) (<= x pivot)) rest))
+                (cons pivot (qsort (filter (lambda (x) (> x pivot)) rest)))))))
+
+(define unsorted (list 9 2 7 4 1 8 3 6 5 0))
+(print "quicksort: " (qsort unsorted))

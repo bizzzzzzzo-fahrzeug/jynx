@@ -1,0 +1,12 @@
+(define name "Jynx")
+(define version 0.1)
+(define year 2026)
+(define features (list "lexer" "parser" "interpreter" "closures" "macros"))
+
+(print "Language: " name)
+(print "Version: " version)
+(print "Year: " year)
+(print "Features: " features)
+
+(set! version 0.2)
+(print "Next version: " version)

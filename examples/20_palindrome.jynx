@@ -1,0 +1,42 @@
+; Palindrome checker
+
+; Reverse a list
+(define (reverse lst)
+    (if (nil? lst) nil
+        (append (reverse (cdr lst)) (list (car lst)))))
+
+(define (append a b)
+    (if (nil? a) b
+        (cons (car a) (append (cdr a) b))))
+
+; Is list a palindrome?
+(define (palindrome? lst)
+    (= lst (reverse lst)))
+
+(print (palindrome? (list 1 2 3 2 1)))   ; true
+(print (palindrome? (list 1 2 3)))        ; false
+(print (palindrome? (list "a" "b" "a")))   ; true
+
+; String palindrome (convert to char list)
+(define (string->chars s)
+    (if (= (string-length s) 0) nil
+        (cons (string-slice s 0 1) (string->chars (string-slice s 1 (string-length s))))))
+
+(define (string-palindrome? s)
+    (palindrome? (string->chars s)))
+
+(print (string-palindrome? "racecar"))   ; true
+(print (string-palindrome? "hello"))     ; false
+
+(define (map fn lst)
+    (if (nil? lst) nil
+        (cons (fn (car lst)) (map fn (cdr lst)))))
+
+; Power set
+(define (powerset lst)
+    (if (nil? lst)
+        (list nil)
+        (let ((rest (powerset (cdr lst))))
+            (append rest (map (lambda (s) (cons (car lst) s)) rest)))))
+
+(print "powerset of (1 2): " (powerset (list 1 2)))

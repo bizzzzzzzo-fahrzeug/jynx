@@ -1,0 +1,23 @@
+; Input and output
+
+; print — adds newline
+(print "Hello, World!")
+(print 42)
+(print (list 1 2 3))
+(print (+ 1 2))
+(print "multiple" "args" "work")
+
+; display — no newline
+(display "Enter your name: ")
+(define name (read-line))
+(print "Hello, " name "!")
+
+; print handles multiple args
+(define x 10)
+(define y 20)
+(print "x = " x ", y = " y ", sum = " (+ x y))
+
+; Display and print together
+(display "Counting: ")
+(display 1) (display ", ") (display 2) (display ", ") (display 3)
+(print "... go!")

@@ -1,0 +1,28 @@
+; Comparison operations
+
+(print "Equality:")
+(print (= 5 5))    ; true
+(print (= 5 6))    ; false
+(print (= "a" "a"))  ; true
+(print (= "a" "b"))  ; false
+
+(print "Less/greater:")
+(print (< 3 5))    ; true
+(print (> 5 3))    ; true
+(print (<= 5 5))   ; true
+(print (>= 5 6))   ; false
+
+; Comparison in conditions
+(define (classify temp)
+    (cond
+        ((> temp 30) "hot")
+        ((< temp 10) "cold")
+        (else "warm")))
+
+(print (classify 35))
+(print (classify 5))
+(print (classify 20))
+
+; Compare lists (by value)
+(print (= (list 1 2) (list 1 2)))  ; true
+(print (= (list 1 2) (list 3 4)))  ; false

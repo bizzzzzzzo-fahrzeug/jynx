@@ -1,0 +1,40 @@
+; Math utilities
+
+; Absolute value
+(define (abs n)
+    (if (< n 0) (- n) n))
+
+; Maximum
+(define (max a b)
+    (if (> a b) a b))
+
+; Minimum
+(define (min a b)
+    (if (< a b) a b))
+
+; Power (integer exponent)
+(define (pow base exp)
+    (if (<= exp 0) 1 (* base (pow base (- exp 1)))))
+
+; GCD
+(define (gcd a b)
+    (if (= b 0) (abs a) (gcd b (% a b))))
+
+; Is prime?
+(define (prime? n)
+    (define (helper i)
+        (if (> (* i i) n) true
+            (if (= (% n i) 0) false
+                (helper (+ i 1)))))
+    (if (< n 2) false (helper 2)))
+
+; Tests
+(print "abs: " (abs -5) (abs 3))
+(print "max: " (max 10 7) (max -1 -5))
+(print "min: " (min 10 7) (min -1 -5))
+(print "pow: " (pow 2 10) (pow 3 3))
+(print "gcd: " (gcd 12 8) (gcd 100 35))
+
+(print "prime? 17: " (prime? 17))
+(print "prime? 49: " (prime? 49))
+(print "prime? 97: " (prime? 97))

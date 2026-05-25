@@ -1,0 +1,27 @@
+; String operations
+
+(define hello "Hello")
+(define world "World")
+
+; Concatenation
+(print (string-append hello ", " world "!"))
+
+; Length
+(print (string-length "Jynx"))
+
+; Slice
+(print (string-slice "Jynx Language" 0 4))
+(print (string-slice "Jynx Language" 5 13))
+
+; Type conversion
+(print (number->string 42))
+(print (+ (string->number "10") (string->number "20")))
+
+; String predicates
+(print "is string? " (string? "yes"))
+(print "is string? " (string? 42))
+
+; Escape sequences
+(print "line1\nline2")
+(print "tab\there")
+(print "quote: \"hello\"")

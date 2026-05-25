@@ -1,0 +1,25 @@
+; Boolean logic
+
+(define t true)
+(define f false)
+
+(print "and:")
+(print (and t t))    ; true
+(print (and t f))    ; false
+(print (and f f))    ; false
+
+(print "or:")
+(print (or t f))     ; true
+(print (or f f))     ; false
+(print (or t t))     ; true
+
+(print "not:")
+(print (not t))      ; false
+(print (not f))      ; true
+
+; Truthiness — only false and nil are falsey
+(print "truthiness:")
+(if "hello" (print "strings are truthy"))
+(if 0 (print "zero is truthy"))
+(if (list) (print "empty list is... wait, its nil"))
+(if true (print "true is truthy"))

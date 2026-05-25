@@ -1,0 +1,32 @@
+; Higher-order functions
+
+; map helper
+(define (map fn lst)
+    (if (nil? lst) nil
+        (cons (fn (car lst)) (map fn (cdr lst)))))
+
+; filter helper
+(define (filter pred lst)
+    (if (nil? lst) nil
+        (if (pred (car lst))
+            (cons (car lst) (filter pred (cdr lst)))
+            (filter pred (cdr lst)))))
+
+; reduce helper
+(define (reduce fn init lst)
+    (if (nil? lst) init
+        (reduce fn (fn init (car lst)) (cdr lst))))
+
+; Usage
+(define nums (list 1 2 3 4 5 6 7 8 9 10))
+
+(print "squares: " (map (lambda (x) (* x x)) nums))
+(print "evens: " (filter (lambda (x) (= (% x 2) 0)) nums))
+(print "sum: " (reduce + 0 nums))
+(print "product: " (reduce * 1 nums))
+
+; Chain them
+(print "sum of squares of evens: "
+    (reduce + 0
+        (map (lambda (x) (* x x))
+            (filter (lambda (x) (= (% x 2) 0)) nums))))

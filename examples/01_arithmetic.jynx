@@ -1,0 +1,7 @@
+(print "Addition: " (+ 1 2 3 4 5))
+(print "Subtraction: " (- 100 25 10))
+(print "Multiplication: " (* 3 4 5))
+(print "Division: " (/ 100 3))
+(print "Modulo: " (% 17 5))
+(print "Negative: " (- 42))
+(print "Nested: " (+ (* 2 3) (- 10 4) (/ 20 5)))

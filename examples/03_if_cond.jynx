@@ -1,0 +1,30 @@
+(define x 15)
+
+; Helper
+(define (even? n) (= (% n 2) 0))
+
+; if — no else
+(if (> x 10) (print x " is bigger than 10"))
+
+; if — with else
+(print (if (even? x) "even" "odd"))
+
+; nested if
+(define (sign n)
+    (if (< n 0) "negative"
+        (if (> n 0) "positive" "zero")))
+
+(print (sign -5))
+(print (sign 0))
+(print (sign 3))
+
+; cond — multi-branch
+(define (grade score)
+    (cond
+        ((>= score 90) "A")
+        ((>= score 80) "B")
+        ((>= score 70) "C")
+        ((>= score 60) "D")
+        (else "F")))
+
+(print (grade 95) (grade 82) (grade 50))

@@ -1,0 +1,285 @@
+; ============================================
+; JYNX LANGUAGE — COMPLETE REFERENCE v0.1.0
+; ============================================
+
+; ---------- COMMENTS ----------
+; Single line comment starts with semicolon
+
+; ---------- LITERALS ----------
+(print "--- LITERALS ---")
+
+; Integers
+42
+-17
+0
+
+; Floats
+3.14
+-0.5
+
+; Strings
+"hello world"
+"with escaped \"quotes\""
+"newlines\nand\ttabs"
+
+; Booleans
+true
+false
+
+; Nil (null)
+nil
+
+; ---------- ARITHMETIC ----------
+(print)
+(print "--- ARITHMETIC ---")
+
+(print (+ 1 2))              ; addition → 3
+(print (+ 1 2 3 4 5))        ; multi-arg addition → 15
+(print (- 10 3))             ; subtraction → 7
+(print (- 5))                ; negation → -5
+(print (* 2 3 4))            ; multiplication → 24
+(print (/ 20 5))             ; division → 4.0
+(print (/ 22 7))             ; division → 3.142857...
+(print (% 17 5))             ; modulo → 2
+(print (+ (* 2 3) (- 10 4))) ; nested → 12
+
+; ---------- COMPARISON ----------
+(print)
+(print "--- COMPARISON ---")
+
+(print (= 5 5))              ; true
+(print (= 5 6))              ; false
+(print (< 3 5))              ; true
+(print (> 5 3))              ; true
+(print (<= 3 3))             ; true
+(print (>= 5 4))             ; true
+
+; ---------- LOGICAL ----------
+(print)
+(print "--- LOGICAL ---")
+
+(print (and true true))       ; true
+(print (and true false))      ; false
+(print (or true false))       ; true
+(print (or false false))      ; false
+(print (not true))            ; false
+(print (not false))           ; true
+
+; ---------- VARIABLES ----------
+(print)
+(print "--- VARIABLES ---")
+
+(define x 42)
+(print x)                     ; 42
+
+(define name "Jynx")
+(print name)                  ; "Jynx"
+
+(define my-list (list 1 2 3))
+(print my-list)               ; (1 2 3)
+
+; Mutate with set!
+(set! x 99)
+(print x)                     ; 99
+
+; ---------- CONDITIONALS ----------
+(print)
+(print "--- CONDITIONALS ---")
+
+; if — no else
+(if true (print "yes"))       ; prints "yes"
+
+; if — with else
+(if false "a" "b")            ; → "b"
+(print (if (> 5 3) "bigger" "smaller"))  ; "bigger"
+
+; cond — multi-branch
+(define (score x)
+    (cond
+        ((> x 90) "A")
+        ((> x 80) "B")
+        ((> x 70) "C")
+        (else     "F")))
+(print (score 95))            ; "A"
+(print (score 85))            ; "B"
+(print (score 50))            ; "F"
+
+; ---------- FUNCTIONS ----------
+(print)
+(print "--- FUNCTIONS ---")
+
+; Named function (sugar)
+(define (square x)
+    (* x x))
+(print (square 5))            ; 25
+
+; Lambda (anonymous)
+(define cube (lambda (x) (* x x x)))
+(print (cube 3))              ; 27
+
+; Multi-arg function
+(define (add a b c)
+    (+ a b c))
+(print (add 10 20 30))        ; 60
+
+; Recursion
+(define (factorial n)
+    (if (<= n 1)
+        1
+        (* n (factorial (- n 1)))))
+(print (factorial 6))         ; 720
+
+; Fibonacci
+(define (fib n)
+    (if (<= n 1)
+        n
+        (+ (fib (- n 1)) (fib (- n 2)))))
+(print (fib 10))              ; 55
+
+; Closures — functions that capture scope
+(define (make-counter)
+    (define count 0)
+    (lambda ()
+        (set! count (+ count 1))
+        count))
+
+(define c (make-counter))
+(print (c))                   ; 1
+(print (c))                   ; 2
+(print (c))                   ; 3
+
+; Another independent counter
+(define d (make-counter))
+(print (d))                   ; 1
+(print (c))                   ; 4 (original unchanged)
+
+; ---------- HIGHER-ORDER FUNCTIONS ----------
+(print)
+(print "--- HIGHER-ORDER ---")
+
+; map
+(define (map fn lst)
+    (if (nil? lst)
+        nil
+        (cons (fn (car lst)) (map fn (cdr lst)))))
+
+(print (map square (list 1 2 3 4)))  ; (1 4 9 16)
+
+; filter
+(define (filter pred lst)
+    (if (nil? lst)
+        nil
+        (if (pred (car lst))
+            (cons (car lst) (filter pred (cdr lst)))
+            (filter pred (cdr lst)))))
+
+(print (filter (lambda (x) (> x 3)) (list 1 2 3 4 5 6)))  ; (4 5 6)
+
+; reduce / fold
+(define (reduce fn init lst)
+    (if (nil? lst)
+        init
+        (reduce fn (fn init (car lst)) (cdr lst))))
+
+(print (reduce + 0 (list 1 2 3 4 5)))  ; 15
+(print (reduce * 1 (list 1 2 3 4 5)))  ; 120
+
+; range helper
+(define (range n)
+    (if (<= n 0)
+        nil
+        (cons n (range (- n 1)))))
+(print (range 10))            ; (10 9 8 7 6 5 4 3 2 1)
+
+; ---------- LISTS ----------
+(print)
+(print "--- LISTS ---")
+
+; Create lists
+(define lst (list 10 20 30 40 50))
+(print lst)                   ; (10 20 30 40 50)
+
+; Access elements
+(print (car lst))             ; 10 — first element
+(print (cdr lst))             ; (20 30 40 50) — rest
+
+; Build lists
+(print (cons 0 lst))          ; (0 10 20 30 40 50)
+(print (cons 1 (cons 2 (cons 3 nil))))  ; (1 2 3)
+
+; List properties
+(print (length lst))          ; 5
+
+; Append
+(print (append lst (list 60 70)))  ; (10 20 30 40 50 60 70)
+
+; ---------- QUOTING ----------
+(print)
+(print "--- QUOTING ---")
+
+(print 'x)                    ; x (symbol, not evaluated)
+(print '(1 2 3))              ; (1 2 3) (list, not evaluated)
+
+; ---------- SEQUENCING ----------
+(print)
+(print "--- SEQUENCING ---")
+
+; begin — run multiple expressions, return last
+(define result
+    (begin
+        (print "step 1")
+        (print "step 2")
+        (+ 1 2)))
+(print result)                ; 3
+
+; ---------- TYPE SYSTEM ----------
+(print)
+(print "--- TYPE SYSTEM ---")
+
+; type-of
+(print (type-of 42))          ; "number"
+(print (type-of 3.14))        ; "number"
+(print (type-of "hi"))        ; "string"
+(print (type-of true))        ; "boolean"
+(print (type-of false))       ; "boolean"
+(print (type-of nil))         ; "nil"
+(print (type-of (list 1)))    ; "list"
+(print (type-of +))           ; "procedure"
+
+; Type predicates
+(print (number? 42))          ; true
+(print (number? "hi"))        ; false
+(print (string? "hi"))        ; true
+(print (list? (list 1 2)))    ; true
+(print (boolean? true))       ; true
+(print (nil? nil))            ; true
+(print (nil? 0))              ; false
+(print (procedure? +))        ; true
+(print (procedure? square))   ; true
+
+; ---------- I/O ----------
+(print)
+(print "--- I/O ---")
+
+; print — with newline
+(print "Hello, World!")
+
+; display — no newline
+(display "Hello ")
+(display "World!\n")
+
+; ---------- MACROS ----------
+(print)
+(print "--- MACROS ---")
+
+; defmacro — code transformation at compile-like time
+(defmacro (unless condition body)
+    (list 'if (list 'not condition) body))
+
+(define x 1)
+(unless (= x 2) (print "x is not 2"))  ; prints "x is not 2"
+
+; ---------- EXIT ----------
+(print)
+(print "--- DONE ---")
+; (exit 0)  ; uncomment to exit

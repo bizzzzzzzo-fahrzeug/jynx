@@ -240,11 +240,13 @@ def _eval_and(args, env):
 
 
 def _eval_or(args, env):
+    result = None
     for expr in args:
         val = evaluate(expr, env)
         if val is not None and val is not False:
             return val
-    return None
+        result = val
+    return result
 
 
 def _eval_call(expr, env):
